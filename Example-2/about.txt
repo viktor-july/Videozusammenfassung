@@ -1,0 +1,3 @@
+Name: 'Data Science Portfolio Project From Scratch | Building a YouTube Data Dashboard with Streamlit'
+URL: https://www.youtube.com/watch?v=Yk-unX4KnV4
+Mode: 3 (1 hour)

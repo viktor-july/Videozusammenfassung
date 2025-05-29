@@ -1,0 +1,137 @@
+[0:00:00]  Hello everyone, Ken here back with another video for you today.
+[0:00:11]  My video about how I learned data science has been extremely popular, and I wanted to expand
+[0:00:15]  on that and talk about how I would learn data science if I had to start again from ground
+[0:00:21]  zero.
+[0:00:22]  Things have definitely changed since the start of my data science journey, so I wanted to
+[0:00:26]  provide a current roadmap for this learning process.
+[0:00:30]  Hopefully this video will provide you with a clearer path to shape your own data science
+[0:00:34]  journey.
+[0:00:35]  As a thank you for watching till the end of this video, I give you a few of my best tips
+[0:00:40]  to actually stick with this plan, so stay tuned for that.
+[0:00:44]  I want to caveat this video by saying that learning is a little bit different for everyone.
+[0:00:47]  My word is definitely not gospel, and there's a good chance that you might find something
+[0:00:52]  that works a little bit better for you.
+[0:00:54]  However, I hope that this video is a good foundation for you to build off of, and I
+[0:00:58]  hope that it instills in you the big picture priorities that you should have when learning
+[0:01:03]  this field.
+[0:01:04]  If you enjoyed this video, please hit that like button, and feel free to subscribe for
+[0:01:08]  more content similar to this.
+[0:01:10]  Also remember to turn on notifications to be alerted when I post my next weekly video.
+[0:01:15]  Data science is a huge field, and it makes the most sense to break it down into its components.
+[0:01:20]  The first thing that you need to be familiar with is programming.
+[0:01:24]  Most people do this in either Python or R. You're free to start with either one, but
+[0:01:28]  I generally prefer Python.
+[0:01:30]  It's also more commonly asked for in job descriptions.
+[0:01:34]  As I said, Python I believe is a bit more versatile, but R is still very common in academic
+[0:01:39]  and sports circles.
+[0:01:41]  You'll also want to have a very basic understanding of statistics to start.
+[0:01:45]  I would like to make this video agnostic of whether you're in school or not, so it
+[0:01:50]  If you want to hear my advice on what I would study if I was in college, please check out
+[0:01:55]  the video that I've linked above and also below in the description.
+[0:01:59]  Over time, I've had a change of opinion about how much foundational knowledge you need to
+[0:02:03]  learn data science.
+[0:02:04]  After experiencing many different types of learning myself, I've found that learning
+[0:02:08]  by doing real-world projects is the most effective way to grasp this field.
+[0:02:13]  I think you should learn just enough programming and statistics to be able to start exploring
+[0:02:18]  your own projects in general.
+[0:02:20]  Again, I think that you can get to this level of knowledge through very introductory online
+[0:02:24]  courses, and I've linked a video above and below about some of the ones that I personally
+[0:02:30]  recommend.
+[0:02:31]  I really like the micro courses on Kaggle.
+[0:02:34]  I also have a good relationship with 365 data science, and I can speak to the quality of
+[0:02:38]  their products there.
+[0:02:39]  After developing a foundation, I would explore kaggle.com, which I just mentioned before.
+[0:02:44]  This website, in my opinion, is the single best place to learn data science on the internet.
+[0:02:49]  They have the micro courses, again, which I previously mentioned, but also a tremendous
+[0:02:53]  amount of data sets for you to explore.
+[0:02:56]  The great thing about this is that it's a public forum for people to submit their analysis
+[0:03:00]  of shared data sets.
+[0:03:02]  You can go in and see the code of established data scientists, and from this you can see
+[0:03:06]  what packages they used, the way that they explore the data, and the different ways that
+[0:03:11]  they optimize the algorithms that they use.
+[0:03:13]  I would follow along with a few more of these advanced notebooks, and then I would recommend
+[0:03:18]  you starting on your own basic projects.
+[0:03:21]  I made a video about the three beginner projects that I recommend, and I've also linked that
+[0:03:25]  above and below.
+[0:03:27]  At this point, I would split your time, about 50-50, between working on your own projects
+[0:03:33]  and exploring other people's code and work.
+[0:03:36]  I would try to apply many of the new things that I saw in these more advanced workbooks
+[0:03:41]  to the code that I'm working on at this point in time and the projects there.
+[0:03:45]  As you go along learning this way, you'll see when different people use algorithms in
+[0:03:50]  different packages.
+[0:03:51]  I recommend compiling a list of all the different things you see.
+[0:03:54]  You should go through the source code of all these different things and try to grasp how
+[0:03:58]  they're constructed.
+[0:03:59]  Frankly, if you can understand the source code for an algorithm, you functionally understand
+[0:04:05]  the math behind it.
+[0:04:07]  It's still good to supplement this information with some actual theory using Wikipedia or
+[0:04:13]  some math textbooks, but that will give you the general gist.
+[0:04:15]  I find that if I understand how algorithms are built, it's way easier for me to understand
+[0:04:20]  the math associated with them.
+[0:04:22]  Again, this is fairly common practice in math circles.
+[0:04:26]  They try examples first, then see if they can fit a theory to what they're seeing.
+[0:04:31]  This helps to build intuition around the data science skillset.
+[0:04:35]  If you're feeling particularly ambitious, it's extremely valuable to be able to build
+[0:04:38]  some of these algorithms from scratch.
+[0:04:41]  You should try to explore building a linear regression or a k-means clustering algorithm
+[0:04:45]  from just basic Python components.
+[0:04:48]  At this point, you should have already started to delve into more advanced projects.
+[0:04:53]  You do this to stretch out your skillset.
+[0:04:56]  Advanced projects are one where you strive to find unique insights.
+[0:05:00]  This can be fairly intimidating, but if you collect your own data, it can also be relatively
+[0:05:04]  easy.
+[0:05:05]  You can also do this by asking questions of existing data sets that other people haven't
+[0:05:09]  thought of yet.
+[0:05:10]  Again, this can seem quite difficult, but if you're spending a significant amount of
+[0:05:14]  time doing projects and building intuition, these ideas eventually come relatively naturally.
+[0:05:20]  At this stage, I would also recommend exploring some deep learning, NLP, and computer vision
+[0:05:24]  concepts.
+[0:05:25]  I personally enjoyed the FASTA AI course, and I've definitely borrowed a bit from their
+[0:05:29]  learning philosophy.
+[0:05:31]  It's important to push yourself to get feedback on your work as well.
+[0:05:35]  I highly recommend making your analysis public on Kaggle, GitHub, your blog, or Tableau Public.
+[0:05:41]  Putting work on Kaggle is definitely something that I personally need to improve on as well.
+[0:05:45]  After you've reached this level, you've really built almost all of the foundational
+[0:05:49]  knowledge that you need.
+[0:05:50]  From then on, it's about learning new packages or concepts and applying them to your work
+[0:05:54]  or in more projects.
+[0:05:56]  The data science journey is never over.
+[0:05:58]  You know, honestly, you'll constantly be learning and applying new things, but I personally
+[0:06:02]  think that that's what makes the profession really fun.
+[0:06:05]  Now, there are a few other details that I think are important on this learning journey.
+[0:06:10]  First is how much time you need to spend learning.
+[0:06:13]  This can vary greatly by person based on how quickly you actually want to consume this
+[0:06:17]  material.
+[0:06:18]  I think that working around an hour per day would be sufficient to learn the foundations
+[0:06:22]  of data science for a year.
+[0:06:23]  If I could go back, I would schedule in blocks of time that I would study rather than doing
+[0:06:27]  it randomly.
+[0:06:30]  I learned this concept from the book Ultra Learning, which I also recommend reading and
+[0:06:34]  watching the above video that I made on it.
+[0:06:37]  I don't suggest studying for less than 30 minutes at a time or for more than three hours.
+[0:06:42]  If you study too short, you'll spend too much time catching up on what you did the previous
+[0:06:46]  time.
+[0:06:47]  And if you spend too much time, I think that there's a pretty high chance of burnout.
+[0:06:50]  Next, I'm a huge believer in setting goals.
+[0:06:53]  If you see my Day in the Life video, my room is basically decorated with sheets of paper
+[0:06:58]  reminding me what I want to accomplish.
+[0:07:00]  A good goal should be three things.
+[0:07:02]  Measurable, something you have complete control over, and finally it should have a time constraint.
+[0:07:07]  An example of a good goal is that you'd like to be able to do two exploratory analyses
+[0:07:14]  where you apply principal component analysis over the next two weeks.
+[0:07:17]  An inferior example would be if you said your goal was to learn PCA.
+[0:07:22]  The reason why one of these goals is superior to the other is the ability for you to be
+[0:07:27]  held accountable to it.
+[0:07:29]  I think accountability is extremely important and you can hold yourself accountable in a
+[0:07:33]  couple of different ways.
+[0:07:34]  One is by writing things down and another way is by actually telling people or community.
+[0:07:41]  I'm perfectly fine with either of these approaches.
+[0:07:44]  You can tell one of your friends, you can have an accountability partner.
+[0:07:47]  You can also use some of these social groups to actually maintain your accountability as
+[0:07:52]  well.
+[0:07:53]  I would ask you to write in the comment section below what some of your goals are and the
+[0:07:56]  community on this channel will help you stay accountable there.
+[0:08:00]  Hopefully this video will give you a clear path on how to navigate this field.
+[0:08:04]  It took me five years to really understand these data science and life concepts and I'm
+[0:08:09]  still learning every day.
+[0:08:11]  Thank you so much for watching and good luck on your data science journey.

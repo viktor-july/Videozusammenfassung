@@ -1,0 +1,706 @@
+[0:00:00]  This video is brought to you by Streamlit, more on them in a little. Today we're going to build an
+[0:00:03]  interactive dashboard, like one that you could share in your portfolio for prospective employers.
+[0:00:08]  Rather than just going through the tutorial on its own, I'm going to explain how I would approach
+[0:00:13]  the problem and highlight the things that employers will be looking for in your work,
+[0:00:16]  or what they might be looking for. The data we're going to be using is from my own YouTube channel,
+[0:00:20]  but you could do this with any social data that you have access to. I think that this is a
+[0:00:24]  particularly good use case, because I can act as the stakeholder and walk you through what I would
+[0:00:29]  personally be looking for in an analysis like this. When doing projects, it's really important
+[0:00:33]  to think about who the end user is, how are they hoping to grow their business, and what metrics
+[0:00:37]  might be relevant to them. If possible, you want to talk with them about their pain points and what
+[0:00:41]  information they would like to have. This is especially true for an interactive product like
+[0:00:45]  a dashboard. The success of dashboards or other digital products is evaluated by the business
+[0:00:50]  value and the impact that they can drive. This is even more important than the aesthetics or even
+[0:00:54]  the elegance of the analysis. This is something that we want to constantly keep in mind as we
+[0:00:58]  build this out. We'll be using Python, Plotly, and Streamlit to build this dashboard. I'm
+[0:01:02]  especially excited to say that Streamlit is sponsoring this video. I've been using Streamlit
+[0:01:06]  and sharing about it for the past few years for free, and it's incredible now that we can do this
+[0:01:10]  in a more formal fashion. They're launching a great initiative called the 30 Days of Streamlit,
+[0:01:14]  very similar to my 66 Days of Data that I highly encourage you to participate in. So help you
+[0:01:19]  improve your dashboarding skills, help you build out your portfolio, a lot of incredible benefits.
+[0:01:23]  More details on that in the description of the video. When approaching an analysis,
+[0:01:26]  it's important to think about why you're doing it in the first place. If it's for work,
+[0:01:30]  it's generally to drive the value of the business. In this case, we're using my YouTube data,
+[0:01:34]  so we should start thinking about how this could be useful to my channel. What types of things might
+[0:01:38]  a YouTuber be interested in learning from the data? Let's brainstorm a few things first.
+[0:01:42]  So the first thing that comes to mind for me is they're probably interested in growing their
+[0:01:46]  channel. That's something that's relevant for me as well. Looking at what videos help to grow the
+[0:01:50]  channel the most would probably be a pretty good starting place. YouTubers are also probably looking
+[0:01:54]  to understand new video ideas. Understanding what people are looking for could also be useful.
+[0:01:58]  Finally, they might also want to keep up to date with how their new videos are performing against
+[0:02:01]  a baseline to see where they should tweak things. If their YouTube content is for profit, they might
+[0:02:06]  also want to understand something about which topics earn the most income. While this isn't
+[0:02:10]  an important metric for me, if you're showcasing something like this to the business where profit
+[0:02:14]  is a key metric, you likely want to include that as well. Today we're not going to build all these
+[0:02:19]  into the dashboard, there's a lot of room for you to expand on this and improve on this, but this is
+[0:02:23]  how I'd go about thinking about framing and dashboard analysis and starting the building
+[0:02:26]  process. Now let's get our hands dirty with some data. All right everyone, before we get started,
+[0:02:30]  I just wanted to show you what the final dashboard will look like. It isn't too fancy. Again,
+[0:02:34]  this is something you can really spice up. This is just setting the groundwork for you to be able
+[0:02:39]  to build on it. So what I start with is the overall channel aggregated health. So I'm looking at the
+[0:02:45]  performance in the last six months versus a baseline. You can also on this page see how
+[0:02:52]  all of the individual videos perform against the baseline as well. And I'll talk about how I build
+[0:02:57]  the baseline and all those types of things too. The second thing is you can see the individual
+[0:03:02]  video analysis. So we can say maybe how did this video perform? And you can see that it performed
+[0:03:09]  below average, I guess. But we can see how many people watched a video who were subscribed versus
+[0:03:17]  not subscribed and the breakup by the largest audiences that I have. It's also pretty cool to
+[0:03:24]  see the comparison of the video over time. As I alluded to before, we can see the 80th percentile,
+[0:03:29]  the 50th percentile, and the 20th percentile. And this red line is how the current video performed
+[0:03:34]  over the first 30 days, which is usually how I evaluate if a video is going to be successful.
+[0:03:41]  I think it's really important to note also just how many tabs and things I have open.
+[0:03:45]  This is about half the tabs that I used. And there's a mix of Stack Overflow,
+[0:03:50]  NumPy, Pandas, a lot of Plotly and those types of things. And that's just to say that an individual
+[0:03:58]  project, right, is it's not super straightforward. It's iterative. We have to Google a lot. We have
+[0:04:06]  to figure these things out a lot as we go. No one just sits down and code something up in one sitting.
+[0:04:11]  That would be completely ridiculous. So I will tell you as I go along the areas where I struggled
+[0:04:17]  and where I looked for some additional help from Google. I obviously didn't include everything
+[0:04:22]  because this would have been like a four or five hour tutorial if I did. But I think it is important
+[0:04:27]  again to emphasize that this is a process that iterates and changes over time. So with that
+[0:04:33]  being said, let's jump into it. Okay, so the first thing I recommend that everyone do is to create a
+[0:04:40]  clean environment for us to do this project in. This is something I do for all my projects.
+[0:04:44]  It helps me organize what packages I'm working with, what versions I'm using, and this makes
+[0:04:50]  things overall easy. It also helps when we're actually putting this dashboard into production
+[0:04:55]  on GitHub. We have to have the specific versions of all the libraries that we're going to be using
+[0:05:01]  saved. So this helps us do that really easily. So what we're going to do is we're going to open up
+[0:05:07]  Anaconda and the Anaconda prompt. This is something I highly recommend using. I have a video
+[0:05:13]  that I will link about how to configure Anaconda as well. But Anaconda is just basically a way that
+[0:05:19]  you can encapsulate all of your Python and all the different libraries and versions into a nice
+[0:05:25]  simple place. So what we're going to do is we're going to just change folders. So I'm going to go
+[0:05:30]  into my documents and then I think I made a YouTube dashboard streamlet folder. So I'm going
+[0:05:40]  to Conda create new and we're going to do Python and then we're going to name this YouTube dashboard
+[0:05:52]  streamlet and then we're going to use Python equals 3.8. So this is just going to create
+[0:05:59]  our environment pretty straightforward and we're going to open this environment and do
+[0:06:03]  everything in here. So I'm using just the Windows Conda environment here. You can do this on Linux.
+[0:06:09]  You can do it on any other type of computer as well. So this is just going to install the
+[0:06:14]  base packages for the kind of environment. What's going to be most relevant here is PIP. So we're
+[0:06:19]  going to use PIP to install pretty much everything else. All right. So now we are going to zoom in
+[0:06:28]  a little bit more. We are going to Conda activate the environment we just created. So you see
+[0:06:39]  it looks like I spelled it wrong but it's okay. I forgot the D. These things happen. So now we're
+[0:06:45]  in our environment. We want to install a couple of things. So we need to have a streamlet. So we're
+[0:06:52]  going to install streamlet. We're also going to install Plotly and that should be everything that
+[0:07:04]  we need. So again this will be pretty quick but this will help you set up the exact environment
+[0:07:10]  that you need. You can also just take the requirements file that I create in the GitHub repo
+[0:07:17]  and use that to create a new environment. I should probably also make a YAML file that will allow you
+[0:07:23]  to do that directly in Conda but we'll see if I get around to it. Okay. So after you install
+[0:07:32]  streamlet you can do streamlet and then check the version and it shows that it's installed.
+[0:07:37]  Now we also want to PIP install Plotly. That's the main visualization software that we're going
+[0:07:45]  to be using here. Okay. Now that that's installed we're going to install one last thing or I'm going
+[0:07:51]  to you don't have to. I like to use Spyder for my Python development. You can use Jupyter. You can
+[0:07:59]  use VS Code. You can use a bunch of different IDEs. For Jupyter, at least for me, it's easier.
+[0:08:05]  It works in a Jupyter environment so it's not as easy to write just straight Python code.
+[0:08:11]  I find that Spyder lets me write regular Python code rather than having to write it in cells
+[0:08:18]  and run that relatively easily. So this is my preferred method. Again, you can use whatever
+[0:08:23]  you want here. Okay. Excellent. So now we can fire up Spyder. While that's loading, let's go
+[0:08:32]  find our data. So you can go onto Kaggle. I will put the link below and you can download all of
+[0:08:38]  this information here. Also, if you do a cool analysis, there have been some really, really
+[0:08:42]  awesome ones so far. Big shout out to a bunch of these. You can upload it here as well. So we click
+[0:08:49]  download. It downloads here. We're going to load this into the correct file location. So for me,
+[0:08:58]  it's going to be in my documents. And I created this YouTube dashboard so we can open this up
+[0:09:07]  and I'll just drag and drop those in. And yes, I will, as you can see, just drag these in. You
+[0:09:19]  can do this in the command line if you really want to, but they should work perfectly fine.
+[0:09:24]  Now let's open up Spyder. So this is what the ID looks like for me. What we're going to first
+[0:09:32]  want to do here is go in and open up that file directory that we just described.
+[0:09:40]  So this is YouTube dashboard and we can check what files are in it. So we do have the relevant
+[0:09:46]  files. So one thing that I have done, and as I've mentioned, as I have this file for organizing
+[0:09:52]  everything, we want to make sure we save this into the correct file location. So we're going to put
+[0:10:00]  this into the YouTube dashboard streamlet and now we can get started. So the first thing we want to
+[0:10:07]  do is load in all of the relevant libraries. Rather than typing this out, I'm just going to
+[0:10:11]  copy and paste. This is just going to be a little bit easier for everyone. Save you some time,
+[0:10:16]  save me some time. So the first thing we're going to include is pandas. That's how we're going to
+[0:10:21]  be doing all of our data manipulation. Next, we're going to use NumPy. NumPy, I actually don't really
+[0:10:27]  remember if I use it explicitly, but it's always good to have, helps you work with different types
+[0:10:31]  of arrays, different data structures within data science. We're going to include plotly graph
+[0:10:36]  objects, which is a version of plotly that is highly customizable. It allows you to isolate and
+[0:10:44]  to adjust almost any aspect of the poly graphs. We're also going to use,
+[0:10:52]  excuse me, we're also going to include plotly express, which is a little bit more user-friendly
+[0:10:57]  it works with your data set. It lets it make some assumptions of the data. So we can't always make
+[0:11:02]  it exactly how we want, but it is again, a lot easier to use for beginners. Next, we're going to
+[0:11:07]  import streamlet, which is how we're hosting our dashboard. And finally, we're including date time.
+[0:11:12]  So when I like this press shift enter, and that will load everything in. We're not going to define
+[0:11:19]  any functions yet, but let's also load in some of our data. So we have four different data sets that
+[0:11:25]  we're going to include. So that's going to be DF ag, which is just the aggregated data that has all
+[0:11:32]  of the, you know, over the 220 some odd videos that I had to this point, everything that was relevant.
+[0:11:39]  Let's just load this in really quickly so I can explain something. So if we see here,
+[0:11:46]  the first column is the total, and we don't want that. That'll mess up all of our results.
+[0:11:51]  So for time trying to take the aggregate or the median or any of these types of things.
+[0:11:55]  So what I did here is I use the integer location. And what we did with that is we just
+[0:12:01]  skipped the first row and included everything else. So this is which rows you want. This is which
+[0:12:07]  columns you want. And for me, this was the easiest way to do that. So now if we reload it again,
+[0:12:15]  we can see that the total row has been removed. So that's all pretty easy. I also wanted to
+[0:12:26]  get some additional data, which is this DF ag sub. So this is the
+[0:12:36]  same aggregated data, but we include information on if the individuals who watch the video were
+[0:12:42]  subscribers or not, and also what country those views came from. Next, we have the comment data
+[0:12:49]  and the time series data. Now these, to be perfectly honest, I didn't really use the comment data,
+[0:12:58]  but I do use the time series data. And it'll be nice to include the comment data if you want
+[0:13:04]  to do some additional analysis here, which I highly recommend doing. So we can include these two.
+[0:13:10]  And that isn't necessarily everything. In this step, I thought it would be relevant to do just
+[0:13:14]  a little bit of feature engineering. So let's talk about those. I know I probably should put
+[0:13:19]  this in engineer data, but you'll see why I did it here in a second. So there's a couple things
+[0:13:24]  that I did with the aggregated data. And let me just copy and paste those and walk through them.
+[0:13:32]  So the first thing is I renamed all of the columns. There weren't that many columns.
+[0:13:36]  There were like 19, so I thought I could just go and do it by hand. That worked out perfectly
+[0:13:41]  fine. The reason I did that is for some reason, when I loaded it in the columns had some weird
+[0:13:46]  ASCII values. So when I would actually type them correctly, it wouldn't match up. It wouldn't let
+[0:13:52]  me select the specific columns. So I just went through and renamed them. You can do this in a
+[0:13:57]  more systematic way. But for me, honestly, it was a little quicker just to do it this way. I also
+[0:14:02]  could have imported some ASCII libraries and corrected things that way. But since this,
+[0:14:07]  it was only with this aggregated data set, I decided to just rename the columns and be done
+[0:14:13]  with it. You can fool around with different ways to do this. But again, this is like a little
+[0:14:18]  constraint, a little like impurity in the data that a lot of you're seeing with a lot of data
+[0:14:22]  science projects. Next, what I wanted to make sure I did was look at the video publish time. So
+[0:14:31]  in the current data set, the publish time is in a string or it's just like an object. If we want
+[0:14:37]  to make it most useful to us, we convert it to a date time value. So date time values mean that we
+[0:14:43]  can take the publish time and we can turn it into, we can sort by that. We can get a date difference
+[0:14:50]  from that if we wanted to see how far the date was from something else. So this is going to make
+[0:14:55]  that time field a lot more useful and relevant to our analysis. I also did something very similar
+[0:15:01]  with average view duration. So this was just like a string timestamp and we converted it using again,
+[0:15:07]  date time into like a time field. So it's hours, minutes and seconds based on the video. And with
+[0:15:14]  that new time field, we were able to calculate how many seconds the average view duration is.
+[0:15:21]  So this is a lot more useful to us than just this texturing of information about
+[0:15:25]  the amount of time each video is watched. It actually tells us the seconds and with seconds
+[0:15:31]  being a continuous variable, it is significantly more useful to us. The next two were just some
+[0:15:38]  other cool data points and cool new features that I thought would be relevant. So engagement ratio,
+[0:15:45]  we just take all the different types of engagement and divide it by the views. Same with the views
+[0:15:52]  and sub gained, we take the number of views and divide it by the subscribers gain for that video.
+[0:15:57]  What I found is that these were actually just terrible metrics and didn't tell me anything,
+[0:16:02]  aside from that when I had really popular videos that reviewed a lot, the ratios were really low.
+[0:16:07]  So this was more of a, it didn't really tell me anything new. It just told me that, you know,
+[0:16:12]  when a video is really popular, there's just generally going to be less engagement,
+[0:16:16]  which doesn't, I don't think help me in any way, shape or form. But again, that's part of data
+[0:16:20]  science where you're learning these things and you see what that you create some features and
+[0:16:25]  they're great. And some features aren't great. The last engineering we really did was taking date,
+[0:16:30]  time, and we're going to, I didn't copy that in yet, but what we're going to do here is very similar
+[0:16:40]  to what we did with the other time fields. We just need to make sure that it is not a string
+[0:16:46]  and it is put into date time and pandas has built in date time. This date time that we use up here
+[0:16:53]  is used just a little bit differently. They can be used interchangeably for the most part.
+[0:16:59]  But it's hard, at least for me conceptually to use the pandas date time when I'm putting it in a
+[0:17:05]  Lambda function or something like that. All right. So if you're not familiar with a Lambda function,
+[0:17:13]  let me just explain what that is really quickly. This is something I use very frequently for some
+[0:17:19]  light feature engineering. And probably the best way to do that is for us to just load in these,
+[0:17:26]  like the first couple rows of data and compare what average view duration looks like before and
+[0:17:34]  after we do the engineering on it. So right here we can see it looks like this sort of
+[0:17:39]  text field with our minute second. This is just an object. It is not a date time object. So
+[0:17:45]  when we use a Lambda function, we apply, well, what apply does that it applies whatever function
+[0:17:51]  you pass it to this, to every single row or entry in this series. So whatever function we're applying,
+[0:17:59]  we'd apply it to that one and then that one and then that one. Now the Lambda function lets us
+[0:18:05]  just define our function right here. So we have Lambda X and the function is applied on X. So we
+[0:18:11]  just take the date time and we strip time. Oops. And then we convert the daytime into this format.
+[0:18:18]  So now after we run this, we can see that the average view duration now
+[0:18:24]  is in this date time format that I've described. Hopefully you can watch this in HD and see what
+[0:18:30]  that actually looks like. I apologize if it's a little bit small. All right, now let's keep
+[0:18:35]  going with the rest of our analysis here. So we're going to load all of these things in.
+[0:18:39]  And the first thing we want to do is that we want to create essentially a function that reads in
+[0:18:46]  this data. This is going to make it a lot easier for us to work with this in Streamlabs. So we're
+[0:18:50]  going to just call this load data. We're going to just put all of this into a function.
+[0:19:02]  And then what we're going to return is just the data sets that we created. So we're going to turn
+[0:19:07]  df ag, df ag sub, df comments, and df time. Great. And so now if we want to load this data in
+[0:19:18]  more consistently, we just set that equal to load data. Right? So we're defining these here,
+[0:19:26]  but they're defined in the function, so they're not defined globally. Now every time we load
+[0:19:31]  all the data, we just run this function and it goes through all of this. Streamlet has this great,
+[0:19:38]  I guess, system in place where you can cache the data. So you only have to load it in once,
+[0:19:44]  and it doesn't load every single time you reload the page. And in order to do that, we just use
+[0:19:49]  this. And so now if we wanted to run the dashboard and have it up to the level of the page, we can
+[0:19:57]  do that. And so now if we wanted to run the dashboard and have it update, it would work
+[0:20:03]  perfectly fine for that. So let's save this and let's jump around a little bit to just
+[0:20:09]  structuring our dashboard and figuring out just a tiny bit about what it would look like.
+[0:20:14]  So in order to run our dashboard, in order to pop it up, let's open up a new Anaconda prompt.
+[0:20:20]  All right. And so let's make that a little bit bigger. And then we're still going to go into our
+[0:20:26]  other environment. We have to change our directory as well. So we'll go to documents and we'll go to
+[0:20:33]  YouTube dashboard Streamlet. And then we're going to Streamlet run Ken Dashboard.py.
+[0:20:50]  Okay. So when we run this, we'll get to see what the base Streamlet dashboard looks like.
+[0:20:57]  And I will just drag and drop. This should pop up automatically, or you can copy and paste
+[0:21:02]  the local host information there. So as you can see, this is a completely blank dashboard.
+[0:21:09]  There is nothing in it. Now, why don't we just add some quick elements to that.
+[0:21:14]  So the first thing we want to add for me is a sidebar. So a sidebar will help us navigate.
+[0:21:20]  As you saw in the previous iteration, what I used the sidebar for was to separate the
+[0:21:28]  total picture of the video and the individual video data performance. Right. So let's just
+[0:21:36]  really quickly add that in. The line of code is going to be fairly straightforward here.
+[0:21:41]  It is just going to be this. So we're going to add in a sidebar and you can get all this
+[0:21:48]  information on the Streamlet documentation. They have really good documentation about what all these
+[0:21:53]  things are, but we're just going to, it's Streamlet, we're adding a sidebar, and then we're adding a
+[0:21:58]  select box. This is what the statement is going to be aggregate or individual video. And then the two
+[0:22:04]  options are going to be aggregate metrics and individual video analysis. Right. So we're going
+[0:22:10]  to add a button. So as we build our dashboard out, we want to be thinking about the two different
+[0:22:15]  types of features that we have aggregate metrics and individual video analysis. We're going to start
+[0:22:20]  again with this aggregate metrics and hopefully build some pretty cool and useful stuff. Okay.
+[0:22:25]  Let's start with the video analysis. So let's just go ahead and click on the video analysis.
+[0:22:31]  So let's go ahead and click on the video analysis. So let's just go ahead and click on the video
+[0:22:36]  analysis. And hopefully build some pretty cool and useful stuff. Okay. Let's take a quick look at the
+[0:22:40]  actual dashboard. So we want to get the median metrics over time for the channel. And, you know,
+[0:22:47]  we also want to compare that against a baseline. And for these little percentage things, we're going
+[0:22:55]  to want to create the deltas from what currently is the median for the last six months versus the
+[0:23:03]  last 12 months. So let's do a little future engineering to try to figure that out. So right here.
+[0:23:17]  So let's first just get the aggregated differential for all of the data. So we're going to do df ag
+[0:23:24]  diff and that's going to equal df ag dot copy. So when we create a copy, it doesn't mess up any of
+[0:23:31]  the things in df ag. It's just sort of a good practice to do it this way. Next, we want to make
+[0:23:36]  sure that the data is from this most recent 12 months. It isn't useful in my opinion to look at
+[0:23:45]  the medians of the data or the differential of the data from the entire history of the channel,
+[0:23:49]  because a lot of the videos I put out earlier don't really have much viewership.
+[0:23:53]  So what we're going to do here is going to take like a 12 month time window and we're going to
+[0:23:59]  figure out what was the date 12 months before the most recent video was published. So we're
+[0:24:07]  going to take video published time max. So if we look at this, let's just run this to make this copy.
+[0:24:15]  And if we look at this, we can see when the most recent date was published.
+[0:24:20]  So this data isn't exactly new, but we can see the most recent video I published was January 17th.
+[0:24:27]  So we'll take that. And then what this is going to do here is we're going to take 12 months minus
+[0:24:33]  that and get a number. So let's just run that. And then you can see what this number equates to.
+[0:24:40]  So this number here is exactly one year previous to that. So that's what we're going to be basing
+[0:24:46]  our median off of. Now, what we want to do is get the median for all of the values in this data frame.
+[0:24:53]  So something that might be useful for us to do is actually just look at all of the data here
+[0:25:01]  and see what columns there are. So we have the publish time. We have, sorry, comments added.
+[0:25:08]  Let's sort by publish time, shares, dislike, likes, subscribers lost, subscribers gained,
+[0:25:16]  RPM, CPM, average percentage viewed, views. Let's see what this is. I think this is watch time
+[0:25:28]  in seconds. I'm not great at clicking at things. But as you can see, there's a lot of continuous
+[0:25:38]  variables. What we want to do is just get the median for all of these and only include those.
+[0:25:43]  So we're going to create this median aggregate that's just going to get the median for every
+[0:25:48]  single column. And so what we want to do is we want to take only the last 12 months. So we're
+[0:25:55]  going to filter the data frame for only dates that are greater than January 17th, 2021. And we're
+[0:26:06]  going to take the median of all of those. So if we run that, let's see what it looks like.
+[0:26:11]  So here is what all of the medians look like for all of the continuous fields. When we use median,
+[0:26:17]  we automatically filter out only the integers and the float values. Now, if we wanted to do that
+[0:26:26]  more organically, like just get the numeric columns, we could run something like this,
+[0:26:31]  run something like this. This just gives true false of which columns are continuous,
+[0:26:43]  floats, or ints, and other. So we can take the numpy array and then we look at the data types
+[0:26:49]  and if they're equal to float, or this means or in computer language, or if they're an int,
+[0:26:58]  then we'll include them as true, otherwise they'll be false. So let's just look at what that looks
+[0:27:02]  like. So if we run numeric columns, we'll just get this giant list of trues and falses. And we
+[0:27:11]  can feed that specific list right into our data frame. So if we use the location, I guess you can
+[0:27:19]  use integer location for this. We'll be able to get the specific numeric columns. I'm sorry.
+[0:27:31]  So for this, we can set the value of the numeric columns equal to the value of the numeric columns
+[0:27:38]  minus the median divided by the median aggregate. So what this is going to do is just going to look
+[0:27:45]  at the percent difference from those. And this is going to be useful for analyzing all of our
+[0:27:51]  data here. Let's run that. It's going to be what we use to calculate all of these different values
+[0:27:58]  here. The metrics at the top we do last, but these are the ones which took me the most time
+[0:28:06]  to figure out in general. Okay, so what we just built will allow us to create this data frame here
+[0:28:14]  that is again really useful to me. I can see each individual video and how it performed across
+[0:28:19]  all of the major categories that are relevant to me. Before we do that, let's go ahead and build
+[0:28:24]  out all of these metrics. So metrics are really unique and cool component of Streamlite dashboards.
+[0:28:29]  You can have these at the top and you also can incorporate a delta. So in this case, the delta
+[0:28:35]  shows the percent change in all of these aggregate metrics that are relevant for the last six months
+[0:28:42]  compared to the last year of performance. So let's go ahead and dive into some of the Streamlite
+[0:28:49]  aspects here. What we're first going to do is we're going to show you how to make it so that these
+[0:28:56]  aggregate metrics and the individual video analysis, they show just different things when you
+[0:29:01]  toggle them on and off. So let's go ahead and do that really quickly. So the first thing we're
+[0:29:08]  going to do is we're going to say if add sidebar is equal to aggregate, let's just copy this.
+[0:29:18]  So I don't botch the spelling.
+[0:29:29]  All right, so if it's equal to that, then we'll just return something. So
+[0:29:35]  this is how you just write to the page in Streamlite. Let's just say aggregate. We'll just say ag.
+[0:29:40]  And then if we say if, and then we'll just do for the second one, if add sidebar equals
+[0:29:52]  these individual video analysis.
+[0:29:54]  Video analysis.
+[0:30:04]  Like that. We'll write
+[0:30:11]  endo.
+[0:30:15]  Okay, so if we save that, we should see on our Streamlite page,
+[0:30:19]  we have end for individual and ag for aggregate. So in those if statements, we can just write
+[0:30:26]  whatever we want. We can put the graphs of whatever we want. And as long as that specific
+[0:30:32]  metric is selected here, or that variable is selected here, we can change it well, which is
+[0:30:38]  really cool. It just makes it so that you can switch through whatever is being shown on your
+[0:30:42]  dashboard very, very easily. So now let's do that first one with the component.
+[0:30:49]  So instead of having this ag here, we're going to start putting in some metrics. So we're actually
+[0:30:55]  going to do a little bit more data engineering. I'm just going to copy and paste it and walk
+[0:31:01]  through it. It's going to just be a lot more efficient if I do it that way. So what I'm going
+[0:31:07]  to do here is select the specific metrics that I want to show up top, rather than showing all of
+[0:31:12]  the metrics, which would take up a ton of space. I figured this was a lot easier. So we're choosing
+[0:31:19]  how many metrics was it? One, two, three, four, five, ten, ten different metrics,
+[0:31:27]  which are video publish time. We're actually not going to be including video publish time.
+[0:31:32]  That's just for us to get the differential. But we're going to have views, likes, subscribers,
+[0:31:38]  shares, comments added, RPM, which is how much money you make per a thousand views,
+[0:31:45]  average percentage views, average view duration in seconds, engagement ratio,
+[0:31:50]  and views versus subs gained. So these are all of the metrics that I find most relevant,
+[0:31:56]  basically in descending order. So views is the most important to me, likes, subscribers, shares,
+[0:32:03]  comments. As you can tell, these are all either watching or engagement. And I think those are
+[0:32:09]  directly correlated with channel growth and people actually enjoying the videos that I'm putting out.
+[0:32:15]  So the next thing I want to do is I want to figure out, just like we did before with this
+[0:32:20]  12 month difference, I want to figure out what the most recent six month date range is. So we're
+[0:32:28]  going to take the newest video and we're going to go back six months, just like we did before.
+[0:32:32]  We're going to use this exact same 12 month code as we did before. And we're going to take the most
+[0:32:37]  recent video and go back 12 months. And for every video that we have, we're just going to compare
+[0:32:43]  the most recent six months to the most recent 12 months. And then we're going to create this
+[0:32:49]  metric here, which is the aggregate of all of the medians. So we're just going to take the median
+[0:32:58]  of when this time period is in the past six months. And then we're going to take the median of all the
+[0:33:04]  values of when this time period is in the last 12 months. So let's just run this real quick so we
+[0:33:09]  can actually see the variables and put some, put some additional. Okay. So let's just look at this
+[0:33:16]  so we can see what the dates are. So as you can see, we have the date timestamp of six months
+[0:33:24]  before. Remember the most recent video was January 17th. And so because July 17th would be the six
+[0:33:33]  months previous, that looks correct. And now this one, we can just see what the medians of all the
+[0:33:39]  values are for just that period. Right. So this is what we're seeing. And that's what we're going to
+[0:33:44]  see on our dashboard here. These are all in line with what's, with what's there. Next, we're going
+[0:33:50]  to use the individual metric counts. So for us, let's just create a single metric. And that would
+[0:34:00]  be ST dot stream metric. And what we feed into this is first the label. So let's just do metric
+[0:34:11]  medians, six months, and then we want to include, let's say views. Right.
+[0:34:23]  So the first thing we can do is we can essentially just do that. If we want, we can also
+[0:34:30]  include the values. So actually we put the label here first, which would be views. So
+[0:34:38]  and then the value
+[0:34:43]  would be that. So let's see what that looks like here. We can clearly see that our metric of views
+[0:34:48]  is listed. If we wanted to add something additional, right. So let's do the delta.
+[0:34:56]  We can just put that in and that would be, there we go. It's the additional one.
+[0:35:03]  And we would say, let's say it's 500. So we can see when we rerun this that it went up 500. And so
+[0:35:13]  we can format that as well. So as you can see in the other dashboard or in the final dashboard,
+[0:35:19]  they're all percents. We can adjust that and let's go through and look at some of the code of how I
+[0:35:24]  actually made all of the metrics. I did it programmatically. I didn't do it just by
+[0:35:30]  going through each and every one of them individually. So another cool aspect of
+[0:35:35]  Streamlit is columns. So what you can do with columns, and this is a relic, both metrics and
+[0:35:40]  columns are pretty new in one of the most recent versions of Streamlit, if I remember correctly.
+[0:35:46]  But what this does is it creates five columns in the Streamlit dashboard. So if I wrote to each
+[0:35:54]  one of those, they would be lined up in five different ways. That's how I was able to, again,
+[0:35:59]  organize all of these metrics in a row. If I didn't have the columns, all of the metrics would
+[0:36:06]  just run straight down, which we wouldn't want. We want them to be shown across. The next thing I
+[0:36:12]  did is I just wrote a little for loop that would go through all of these different columns in this
+[0:36:17]  list that I've created of the columns and put all of the metrics in. So here we're going to go
+[0:36:24]  through all of the different variables. And honestly, the with statement, I just kind of
+[0:36:30]  borrowed from some Stack Overflow code and looking through the documentation. I don't exactly know
+[0:36:35]  its function there, but this code did work. So I can't complain too much. I probably should.
+[0:36:40]  I will include some information on with in the documents. But again, this shows that you don't
+[0:36:45]  necessarily have to understand exactly how everything works for it to be functional in
+[0:36:49]  your code. So what we're going to do is going to create the delta. So this is going to take
+[0:36:54]  for this specific variable. Let's take views. So it's going to take the views from the last six
+[0:36:58]  months, and we're going to take the difference between the views the last six months and the
+[0:37:03]  last 12 months. Then we're going to divide it by the views from the last 12 months. So that will
+[0:37:07]  give us the percent change over time. Next, we're going to create the actual metric. We're going to
+[0:37:14]  round the variable to one decimal point. Otherwise, it would just be like really long.
+[0:37:21]  And then we're going to use the delta and the delta is going to be formatted. So it is a percent
+[0:37:27]  and only two decimal places. Right. And so that delta, that percent changes what we're putting in
+[0:37:32]  here. Next, we're going to increment this count. So we continue to go through. And the reason I
+[0:37:39]  added this count logic is probably is not the most elegant way to do this is that that way we're
+[0:37:44]  going to have five of these metrics in each row rather than 10 all the way across and only have
+[0:37:51]  five columns. So what I mean by that is we go through once and we make this row. It counts to
+[0:37:57]  five. After five, we start at the next row of columns and continue on there. So that's why we
+[0:38:02]  have two there. Again, not probably the most elegant, but let's see what it actually looks
+[0:38:08]  like in our new one. So as you can see, we've created this metrics list here. This all looks
+[0:38:15]  pretty good to me. Obviously, it doesn't look as good that the views, likes, subscribers and
+[0:38:20]  shares are down, but it is nice to see that the average percentage views is up. The view duration
+[0:38:25]  is up and some of these other metrics are up. So yeah. Okay. So what we're going to be doing
+[0:38:34]  next is we're going to be building that table. So we're going to be building this. This is
+[0:38:39]  relatively easy to do, but the color formatting took me a lot longer than I would have thought.
+[0:38:45]  And so I got to experiment with how to how to do that in pandas. I'm going to show you what I did,
+[0:38:52]  but remember, this is something that took me a lot of time to figure out a lot of Googling,
+[0:38:56]  a lot of stack overflow. So let's get started. So if we want to actually just add the data frame in,
+[0:39:02]  it's going to be really, really easy. So let's just like trim a little bit of the data here.
+[0:39:10]  So I do want this to be in a date format instead of, well, actually let's just comment that out
+[0:39:17]  for now. So we're just going to do this DF ag differential final, which is going to take
+[0:39:23]  the aggregated difference that we had before and just only use a specific number of columns.
+[0:39:30]  So we don't want all of the data. It would be too long. We just want a couple of the different
+[0:39:35]  columns. So let's just see what this looks like. Oops. It looks like I have to add this in.
+[0:39:52]  Okay, there we go. And let's just look at what this looks like.
+[0:40:00]  So as you can see here, we just have a couple of the video titles and all of the different rows.
+[0:40:07]  From here, we can just do ST data frame and do our DF ag final. Let's see what it looks like.
+[0:40:24]  Okay. And now we can see that we have all of this information. All right. So now we can see we have
+[0:40:30]  all of our data located here. What I adjusted with published date before, it would show the
+[0:40:35]  format and date time. So there would be all the timestamps and stuff, which would be really messy.
+[0:40:40]  What we care about is the published date. So all we did was just trim out all of the time information.
+[0:40:45]  And now we have all of the decimal percentage values for all of these metrics, right? But this
+[0:40:53]  looks pretty ugly. It doesn't tell us a whole lot. So now we just want to format all these values. So
+[0:40:59]  they're more useful to me if I wanted to take a quick glance at how any of these individual
+[0:41:04]  videos did. So let's go through and figure out how to do that. All right. Let's get started with
+[0:41:10]  styling this data frame. So I found an awesome resource for this, obviously in the pandas
+[0:41:16]  documentation. And it shows how you can essentially like create a styler, you can format a bunch of
+[0:41:23]  these things. And you can get these exactly how you want. So for example, in this one,
+[0:41:29]  they made it so that there are no decimal points. So they're able to format all the values.
+[0:41:34]  For us, I had to go through some other steps to get this done correctly. And I'll explain
+[0:41:38]  how I went about that. So one of the challenges that I had is that I didn't necessarily want to
+[0:41:44]  format all the columns, right? So if we look at the at the total data frame here, the first column
+[0:41:52]  is going to be or the second column, technically, is going to be the video title. So I can't format
+[0:41:59]  this with like a numerical format, right? If I wanted to remove decimal places for this,
+[0:42:04]  it would throw an error. So I had to think about how I would approach that and filter that out in
+[0:42:09]  some sense. One way that you can format specific things or format all of the different individual
+[0:42:19]  data points is with the apply map feature. And we can pass a function into that. So I defined a
+[0:42:25]  couple functions up here. So the first is style negative. So for the value, if it is less than
+[0:42:33]  zero, we will be able to pass something into it. And same here, if the value is greater than zero,
+[0:42:38]  we'll be able to pass in some style formatting into it. And you know, the interesting thing here
+[0:42:45]  is that we can also throw a try and accept statement. And so this will only run the
+[0:42:56]  function if it does not throw an error. If it does throw an error, it'll just pass and it'll
+[0:43:01]  be like nothing happened. So this is maybe like a little bit of a janky way to get around the
+[0:43:06]  text columns versus the continuous columns. But again, this did work for me. So remember,
+[0:43:11]  we have the style negative and the style positive column. So what we can do here is we can just
+[0:43:18]  apply map and then we'll do pass our style negative. And then the props is the parameters
+[0:43:31]  that we can pass in and we want to color these red. And let's see what that looks like.
+[0:43:41]  So we're going to save that. Look at our data frame here. We will always rerun.
+[0:43:52]  And that didn't work at all. All right. Well, that didn't work. And I figured out why very quickly.
+[0:43:59]  You have to style. And that should allow us to pass this color red into the style
+[0:44:10]  based on these conditions. So let's double check that again and see if we did any better.
+[0:44:18]  Mono truth. And we did not. Okay. Third time is the charm. I forgot a semicolon. Very typical.
+[0:44:26]  Now it should work. And what we can see here is that all the negative values are red. Right.
+[0:44:33]  So now we just want to make all the positive values green. And again, generally with
+[0:44:40]  visuals, you don't want to use red and green to be sensitive of colorblind people. In this case,
+[0:44:46]  the metrics have built in red and green. So I thought it was okay. Also, there is clear trend
+[0:44:51]  directions. So if you are going to use red and green, if there's a clear negative value or clear
+[0:44:55]  positives, it's generally okay. Not necessarily to use other color schemes like blue and oranges.
+[0:45:03]  Now let's go here and let's now style the color for positive.
+[0:45:13]  And we're going to do, oops.
+[0:45:32]  Okay. And let's see if this works out for us.
+[0:45:44]  Sweet. Okay. So now we have positive and negatives. And the last thing we want to do
+[0:45:48]  is make these all into percents. And I'll be honest with you guys, this was probably the hardest part
+[0:45:53]  of this entire project. I'm going to make it look pretty easy with a couple lines of code.
+[0:45:59]  But again, this was so much harder than I thought it would be.
+[0:46:05]  So what we're going to do is we're going to format each of these columns individually.
+[0:46:12]  So we're just going to do this above here. And so what are we going to be doing?
+[0:46:19]  I need the DFAG numeric list also.
+[0:46:22]  Okay. So what we're going to be doing is we're going to just get a list of the numeric columns.
+[0:46:28]  That's all this is. I will show you what this looks like right here. Can we see this in the frame?
+[0:46:38]  All right. This is just all the numeric columns that we have in here.
+[0:46:41]  We are going to create a new dictionary. And for each of these columns, we are just going to
+[0:46:50]  say, hey, this column in the dictionary has this format. So pretty straightforward.
+[0:46:57]  So if we look at this dictionary, we will see that there is this function format string in each of
+[0:47:05]  these, right? And now we just have to define one more function, or we have to just add to the
+[0:47:13]  format this dictionary. So we are going to format and pass this dictionary in. So this just takes
+[0:47:22]  for each of these individual columns. It passes this percentage format in. Again, I don't know why
+[0:47:29]  this was so difficult for me to figure out after looking at a lot of documentation, but this is the
+[0:47:37]  best option that I came to. So as we come here, as we refresh, we can see that we hopefully now
+[0:47:45]  have percentages, and we do. Beautiful. So now I can look and say, wow, this how I would learn data
+[0:47:51]  science video performed really well across all of these categories. As I described before, the
+[0:47:57]  engagement ratio on those is going to be pretty far off, or views versus sub gained. A video
+[0:48:04]  why everyone should start a podcast, including you, one of my favorite videos to make, but just
+[0:48:09]  absolutely brutalized in terms of the numbers associated with that. Maybe it was a little bit
+[0:48:14]  off brand, who knows. But again, this is a really useful high level look at what videos really hit
+[0:48:21]  and which ones didn't. Now let's shift over to our individual video metrics.
+[0:48:27]  Okay, let's start with the individual video analysis. So as we recall, what this is going
+[0:48:37]  to look like is we're going to have a drop down up here for the video for the specific video.
+[0:48:46]  And we're next going to have this little bar chart here that shows how many views we have.
+[0:48:53]  And we're next going to have this little bar chart here that shows how many people who were subscribers
+[0:48:59]  that watched versus not subscribers, and the proportion from the various countries
+[0:49:05]  that are popular in my YouTube audience. So the US and India are two of the biggest audiences that
+[0:49:10]  I have. And then the other are all effectively around the same proportion. So this is actually
+[0:49:17]  broken up by each individual country. And as you can see, the next biggest one in comparison is
+[0:49:22]  maybe half the size at best. Next, we're going to build this this line chart here that shows
+[0:49:30]  the video popularity in terms of views in the first 30 days that were published. The first thing
+[0:49:36]  that we do have to make though is this little drop down. So let's try to build the drop down
+[0:49:41]  and I'll show you how that works. So let's go to our other data here. So right in here, obviously,
+[0:49:51]  we were able to show in on the screen, which is good, but we actually have to make a little
+[0:49:59]  bit of a different drop down sidebar here. Well, this isn't a sidebar. It's just a video selection
+[0:50:04]  box. So we're going to call this video select. So that's what we're going to do with it. And
+[0:50:12]  we're going to create a select box. So ST and we want it to say to be titled or have next to it
+[0:50:23]  is like what the text is. Take a video. And in order for this to work, we have to include a
+[0:50:34]  tuple of all the different videos we want to look through. So maybe it would be video one,
+[0:50:42]  video two, etc. So let's just see if we can get that to show up on the screen.
+[0:50:51]  That is not the newest version that is this is the one we want. So let's refresh it.
+[0:50:57]  All right, and we'll go to the individual video analysis so we can see video one and video two.
+[0:51:02]  This isn't going to be all that useful to us. But this is this does show how this actually works.
+[0:51:07]  So we're going to want to get the list of all of our videos in here instead. And one of the
+[0:51:11]  challenges is that we have to put it in that tuple format, right? So a tuple is an uneditable.
+[0:51:17]  You can think of it as an uneditable list. So if we have a list, we can convert it into a tuple
+[0:51:23]  relatively easily. And that's exactly what we're going to do here.
+[0:51:31]  So first, we're just going to get our videos.
+[0:51:39]  And we're going to use the tuple keyword. And we're just going to take all the video titles and,
+[0:51:45]  you know, turn that again into a tuple. So what that looks like here
+[0:51:49]  is that now they're all in parentheses, basically. And instead of this, we're going to use
+[0:51:57]  the videos variable that we just created. So now let's see what this looks like. Keep going to the
+[0:52:02]  wrong one. And now you can see all of the videos are there in the correct order.
+[0:52:13]  All right. Now let's create the little bar chart. So the first thing we want to do is we just want
+[0:52:18]  to filter our data based on the variable that was selected. So whenever we choose a specific video,
+[0:52:29]  the video select variable will be assigned to the string that we select. So if we select,
+[0:52:36]  let's just take a random one. Should you be excited about what we're going to do?
+[0:52:41]  Should you be excited about web three as a data scientist, you will get a string of that. And we
+[0:52:48]  can filter the video title based on that. So if we choose the web three video that I described,
+[0:52:56]  we will only get data for the web three video by writing this line of code here.
+[0:53:03]  Next, we want to do a couple of these things.
+[0:53:06]  We have both the ag filter data, but in this case, we're going to want to use the other data frame
+[0:53:11]  that we loaded in that has the subscriber count as well as what I mean, if people are subscribers,
+[0:53:18]  or what country they're from as well. And so we're going to use this DF ag sub data frame,
+[0:53:23]  and the same video title column is in there as well. So we can use this and filter this
+[0:53:30]  well. So we can use this and filter this data in the exact same way.
+[0:53:35]  The next thing that we're going to want to do here is look at country. And we're going to
+[0:53:42]  filter this by a new function that we create. And that function is just basically going to
+[0:53:49]  split things into us, India, or other. So in this case, since these are, again, the largest audiences,
+[0:54:00]  I think it's easier visually just to compartmentalize them in US and India.
+[0:54:04]  Obviously, every other country and all of the people that watch my content from around the
+[0:54:07]  world are just as important. It's just for this use case. These are the three biggest categories
+[0:54:14]  that I thought were most easy to digest visually. So when we use apply, we can just pass the function
+[0:54:21]  in which is the function we just described. It is a very simple if, Ellis, LF and else, where if the
+[0:54:28]  country code is US, it returns USA. If it's India, it returns India. And if it's anything else,
+[0:54:35]  it returns other. So that makes it so we can create these other groups really easily.
+[0:54:40]  And then all we're doing here is we're just sorting all the values by if people are subscribed or not.
+[0:54:46]  I did this because when I created the graph the first couple of times, it would flip flop
+[0:54:52]  on the visual, which was on top. So sometimes true would be up here, sometimes true would be down
+[0:54:57]  here. And I don't think that's generally a good practice. So I just switched that around a little
+[0:55:03]  bit. Now, all we have to do is build the graph. And for the first graph, we're going to use plotly
+[0:55:09]  express, which I think is really easy. And you're going to be like, wow, this was unbelievably easy
+[0:55:14]  for you to create that. So what we do is we just define a figure. In this case, we're going to use
+[0:55:22]  plotly express, we're going to use the bar chart, we're going to pass in the data. And in this case,
+[0:55:28]  we can pass in the column names and it'll create the create the chart itself. So on the x axis,
+[0:55:35]  it's going to be the views on the y, we're going to have two columns, one is going to be is subscribed
+[0:55:40]  is equal to true. The other is going to be is subscribed equal to false. And the color is going
+[0:55:44]  to be the country that I just defined here. And we want this to be a horizontal bar chart. So we're
+[0:55:50]  going to orient it as H. And if we save this, we can see what this looks like. Now, I just have to
+[0:55:58]  always rerun. And on the individual analysis, we should be able to Oh, no, sorry about that.
+[0:56:11]  I have to actually pass the figure into a streamlet. So in order for this to show up on streamlet,
+[0:56:18]  we just have to do this. So we just do. So we've defined this figure, we pass the figure into
+[0:56:30]  streamlet plotly, and then now it will show up and streamlet has compatibility with basically
+[0:56:36]  every every visualization tool that I've used in Python, which is unbelievable. Again, I usually
+[0:56:41]  don't get it right on the first try, but I eventually get it right. So now, oh my goodness,
+[0:56:47]  there we go. It worked. So let's check out a couple a couple different videos. So maybe we
+[0:56:53]  need to talk about the machine learning assessment. You know, a lot of things are very popular with
+[0:56:59]  my audience. Whereas there are some other videos, like let's say is data science dying, where the
+[0:57:05]  vast majority is viewed by non subscribers. So I think this is pretty interesting is understanding
+[0:57:12]  which videos appeal to different audiences. So maybe my let's see how I learned to learn video.
+[0:57:19]  This one's a pretty good balance that that to me is, is a little bit different.
+[0:57:26]  Maybe see another popular video. So how data science projects pay off. This is a very
+[0:57:35]  Ken audience related metric. So I'd probably love to be able to figure out what types of videos
+[0:57:40]  focus more on the is not subscribed market as well, or have more of that balance like the
+[0:57:45]  learn to learn video. Okay, so we're now on to the last part of the dashboard, which is where we want
+[0:57:52]  to create that time series graph that shows how our video is comparing against the 50th percentile,
+[0:58:00]  the 20th percentile and the 80th percentile all in the first 30 days. So there's a couple steps that
+[0:58:05]  we need to take to be able to organize this data in the appropriate way. So the first thing is we
+[0:58:10]  have to look at the time series data itself. And something we'll find in this time series data is
+[0:58:19]  that there's a date, which is literally every day, but we don't have information on when the
+[0:58:26]  date that the video is published. So in order to get the number of days that a video has been out,
+[0:58:32]  we have to subtract the current date of the data frame minus the time that the video was published.
+[0:58:40]  So we have to join two data frames together. So let's just real quickly post some code in.
+[0:58:46]  So we're going to merge the time data with just some small subset of the aggregated data. So what
+[0:58:57]  we're going to get is again, like this time series data frame with just, we're going to join on the
+[0:59:03]  video name or like, I guess it's a video ID and include the video publish time. So eventually
+[0:59:10]  we'll just take the video publish time. I'm sorry, the date minus the video publish time,
+[0:59:15]  and we'll get the number of days that that includes. And that's exactly what we do right here.
+[0:59:20]  So the number of days since the video is published is the current date minus the video
+[0:59:27]  publish time. And then we convert this into days. That is what the daytime days does there.
+[0:59:36]  Perfect. Now the next thing we're going to do is we're going to create a 12 month moving window,
+[0:59:43]  just like we did before. So what is 12 months since the previous maximum?
+[0:59:50]  We've done this with everything. That's the baseline we want to compare things against.
+[0:59:54]  That's how we're going to make our medians. We don't want to do medians from all time because
+[0:59:58]  those would be low, it'd make it look like every video is doing really well, which unfortunately
+[1:00:03]  isn't always the case. And now we're just going to create this data frame where we're only using
+[1:00:08]  these 12 month moving windows. Next, we're going to create a pivot table. I prefer pivot tables over
+[1:00:15]  group by that just says for each day in the first 30, what, you know, how many views does a video
+[1:00:24]  get on average? We're also going to create some aggregation functions. So we're going to have the
+[1:00:30]  media, the mean, the median, this is going to create the 80th percentile, and this is going to
+[1:00:36]  create the 20th percentile. And in theory, median should also be 50th percentile. So let's just run
+[1:00:43]  this and see what it looks like. And then put it here. So some videos, they have negatives for days
+[1:00:53]  published. And that's because sometimes I publish the videos unlisted, I'm assuming that's why,
+[1:01:00]  and I edit them and then I release them and I watched them a couple of times. So this isn't
+[1:01:05]  crazy uncommon. You have to do that for sponsors. A lot of the time they want to make sure the
+[1:01:09]  documentation is right. And as you can see, all the views and the relevant metrics are very,
+[1:01:14]  very negligible. This also goes up to around a year since the video has been published, just like
+[1:01:21]  we'd expect from this month offset. So what we're going to do is we're just going to trim the data
+[1:01:27]  here. So we're going to take, well, we're going to rename the columns of this first because they're
+[1:01:33]  double labeled, which we don't want. And then we are going to only take the days that are between
+[1:01:42]  zero and 30. And this between is inclusive. So I guess it's technically 31 days, right? Or maybe
+[1:01:49]  even 32. But now if we look at this, our data only includes the first 30 days that every single
+[1:01:58]  video is out there. So we have zero to 30. Probably have to reset the index,
+[1:02:02]  but that's not the end of the world. So the next thing that we want to do here is we want to get
+[1:02:08]  the cumulative of all of these rather than having the non-cumulative. So we want to see not just how
+[1:02:19]  many are additional each day. We want to see the running total of each day. And we do this by getting
+[1:02:29]  views. We're just going to use the cum sum or the cum sum, right? We're going to use the cum sum.
+[1:02:38]  And just like we've done before, we're only going to do it on the numeric columns. In this case,
+[1:02:43]  there's few enough where we can only include these specific ones. So we care about median,
+[1:02:48]  80% and 20th percentile. So we can just run this and let's see what it looks like.
+[1:03:05]  So if we look at views cumulative now, we see that these numbers continue to go up,
+[1:03:11]  which is what we want to see. And these all look relatively correct to me.
+[1:03:19]  All right, now we can start building our last chart here.
+[1:03:24]  So the last chart that we're going to build again is that line chart. And we're going to
+[1:03:28]  use Plotly again. It's just going to be a little bit different here. So we're going to use Plotly
+[1:03:33]  graph objects instead of Plotly Express. Okay, so we filtered for the first 30 days above just to
+[1:03:42]  get the median 80th percentile and 20th percentile values. But we also have to filter for just the
+[1:03:50]  first 30 days for all of the videos that we've created or all of the videos in this data set.
+[1:03:58]  So we're going to go through and choose all the data for each individual video. We're going to
+[1:04:05]  create this first 30 data frame, which filters for days published between 0 and 30. And then we're
+[1:04:11]  going to sort the values so that they're in order from lowest to highest. Next, we're going to go
+[1:04:19]  in and build our figure. So this is going to be Fig 2. And we're going to do go figure. So this
+[1:04:28]  creates a Plotly graph objects figure. Next, in this case, we're going to add an individual line
+[1:04:35]  to it. So this works a little bit differently. So rather than us feeding in all the data and it,
+[1:04:42]  the backend of Plotly Express formatting it for us, we're going to have to add each individual
+[1:04:48]  line into this data frame. Right. So the first line we're going to add in is the 20th percentile
+[1:04:54]  line. And so the type of chart we're going to use is a scatter chart, but the mode we're going to
+[1:05:01]  use is line. So it's going to connect all the dots. So the X value here is going to be the views
+[1:05:06]  cumulative days published, which would be this and the Y value is going to be the views cumulative
+[1:05:12]  20% 20th percentile views. Down here, we have the name of the line for the legend. Right here is
+[1:05:21]  our details for the line. So for each line, we can pass in a dictionary and we can add attributes
+[1:05:26]  to the line. So this one is going to be purple and this one is going to be dashed. So let's just see
+[1:05:32]  what this looks like. We'll do
+[1:05:34]  fake two, plot lily, not quite.
+[1:05:45]  And let us see how. All right. So now we can see that there's this 20th percentile line,
+[1:05:53]  right? As we can see, it goes up, you know, after 30 days, the 20th percentile video is looking at
+[1:06:00]  around 2794 likes. So now let's add the other ones in and eventually the, our, our new video.
+[1:06:10]  So we're just going to add two more traces.
+[1:06:16]  So this one is going to be again, same days published. This one is going to be the median
+[1:06:21]  views, which is 50th percentile. We're going to show it as a line. So if we didn't want,
+[1:06:27]  maybe we could do like lines plus markers. And we'll, I'll show you what that looks like in
+[1:06:32]  comparison. The name is 50th percentile. We're using black as the color. We're also using dashes
+[1:06:37]  again. And then for 80th percentile, we're using blue, uh, with dashes again. So let's see what
+[1:06:43]  this looks like. Oops. All right. So in this case, you can see where I added
+[1:06:56]  what it looks like to have lines and markers. Uh, that's something I'm obviously going to remove,
+[1:07:01]  but it just shows you how customizable this is, which is pretty neat. The last thing we're going
+[1:07:06]  to do is add our actual line, which will again be relatively easy. So let's remove our markers here
+[1:07:12]  as a little example. And we will now add in our last line. So this one is going to be from the
+[1:07:23]  different data frame, which is the first 30 that we've created up here. We're going to, it's be the
+[1:07:27]  same days published. We're also going to be using views and the cumulative sum of the views here.
+[1:07:33]  So we could have done it up here. I thought it was fine to just do it down here instead.
+[1:07:38]  We're going to have, we're going to call this the current video. And in this case, what we're going
+[1:07:43]  to change with the line is we're going to make it fire brick, which I think is a pretty sick color.
+[1:07:47]  And we're going to make it a lot of a wider line. So let's do that. And then now when I reload it,
+[1:08:00]  we should be able to see how the video is trending. And you know, in the real world,
+[1:08:05]  I would make this live and I might actually make it live with my data. I just have to upload it
+[1:08:10]  to a database pretty frequently. Um, but that, that would be what would be relevant for an
+[1:08:15]  individual creator. So I could look at that last like two and say, okay, how did this one do? Oh,
+[1:08:19]  it's not doing that well. Is there something actionable I could do to, to make an adjustment
+[1:08:24]  to this in somewhat real time? This one, the only data explanation needs doing pretty well in this
+[1:08:29]  period of time. I definitely check that one out. If, if you're looking for a good high level
+[1:08:36]  explanation of data science, the last thing we're going to do is we're just going to format this a
+[1:08:41]  little bit nicer. So we're going to add in just some formatting. So we're going to update the
+[1:08:46]  layout. We're going to add a title and we're going to say view comparison for 30 days.
+[1:08:51]  The X axis is going to be day since published and the Y axis is going to be cumulative views.
+[1:08:58]  So let's see what that looks like now.
+[1:09:04]  Apologize. I have to keep flipping back and forth.
+[1:09:07]  But there we go. So now we have the view comparison, cumulative views and days published since.
+[1:09:13]  So again, this is a pretty like straightforward dashboard that conveys a lot of information
+[1:09:17]  to me as a creator. Obviously this is something you could 100% expand upon. I did virtually no
+[1:09:24]  formatting of the graphs. I mean, you could make this a clear background. You could add different
+[1:09:28]  columns for the graphs. You could make these more relevant colors. I don't know too many
+[1:09:33]  places where the USA is depicted as green. You know, India, the color probably isn't like,
+[1:09:41]  isn't like way, way off, but we could do a lot better. You know, something like this we could
+[1:09:46]  expand upon. If we're looking at the aggregate metrics, we could make these into a more visual
+[1:09:51]  rather than tabular format. And there's so many things that have still completely gone untouched.
+[1:09:58]  I really want to commend everyone who's worked on the data in Kaggle that I've put out there.
+[1:10:05]  Just looking through those, you could, you can find some really incredible visuals,
+[1:10:10]  visuals that you could integrate here. One thing I would really recommend is exploring the comment
+[1:10:15]  data and perhaps making like a frequently asked question type of thing. That to me is something
+[1:10:20]  that I would like to integrate into a dashboard like this next. So I would like to see if there's
+[1:10:25]  a dashboard like this next. So again, I mean, there's plenty of opportunities to make this
+[1:10:31]  your own, to expand upon this. There's also themes in Streamlit. So you could make it like
+[1:10:35]  a dark theme or spice this up in terms of a color palette quite a bit as well. You know,
+[1:10:41]  this is just scratching the surface of what is possible. And to be perfectly honest,
+[1:10:46]  Streamlit, the Streamlit part of this, the dashboard building part of it was the easiest
+[1:10:50]  part of the whole process. Like formatting this table in pandas was harder than the Streamlit
+[1:10:54]  stuff. Like making sure that I was creating the baselines was more difficult. So to me,
+[1:10:59]  it's so cool that you can create just like awesome interactive web platforms while not having to do
+[1:11:08]  too much complicated work. Right? You can take the graphs that you've built somewhere else
+[1:11:12]  or that you've already worked really hard on and make them in into something that's very visual
+[1:11:17]  and interactive almost instantaneously. So the last thing we're going to do is show you how to
+[1:11:22]  put this online and make this public to everyone. This is important, especially if you're sharing
+[1:11:29]  it within your portfolio. Okay. So in order to get this online, we're going to have to have a
+[1:11:38]  GitHub account, which is pretty easy to set up. My GitHub is playing numbers, which you'll see
+[1:11:45]  I've done. I'm not super active on, but I'm active enough. What we need to do is to create a repo
+[1:11:53]  for this specific dashboard project. So the easiest way to do this would be to just create
+[1:11:59]  a new repo and upload it. We can also use get dash from the computer. There's plenty of different
+[1:12:05]  ways to access GitHub. I'm going to do the really lazy way and create a new repo here.
+[1:12:10]  We're going to call this a YouTube dashboard
+[1:12:17]  ST and we're going to make it public. We are going to, we're going to add a read me
+[1:12:26]  and we don't need a license. So right now we have this YouTube dashboard here. I'm going to go in.
+[1:12:33]  I'll fill in the, the read me later, but I'm going to add some files. I'm going to upload some files
+[1:12:40]  so I can choose files and we'll just go to our, our dashboard here. Let me make sure I save our
+[1:12:49]  dashboard. All right. It is saved. We're going to take all of these and we're just going to put them
+[1:12:58]  in here. We do have to add one additional file, which is the requirements file. And that's what
+[1:13:05]  lets Streamlit know all of the libraries that we're using and what versions they're in.
+[1:13:12]  So we're going to go into our Anaconda prompt here. And so we're in our YouTube
+[1:13:19]  dashboard environment that we created. And so all we're going to do is we're going to type pip
+[1:13:26]  freeze and I'll show you what that, what that actually does. So pit freeze, it just,
+[1:13:32]  it creates a list of all of the libraries that are installed in your, in your environment. Right?
+[1:13:42]  So we're going to do pip freeze and we're going to do a caret that way. And this end type require.
+[1:13:54]  So this is going to put all of those into this requirements dot text file.
+[1:13:59]  And so now you will see this requirements file here and we're going to add just this last one.
+[1:14:10]  Okay. So we uploaded the requirements dot TXT file. I went through and I had to comment out
+[1:14:17]  just a couple things. There's a few things like the, that are related to Windows. So
+[1:14:27]  I commented out PI win 32, PI win 32 C types and PI win, whatever that is. Those aren't relevant.
+[1:14:36]  Those are only relevant because I'm on a Windows machine. So it should work after I eliminate those
+[1:14:42]  things. So now let's go and create a new app. There we go. We're going to be doing Ken dashboard.
+[1:14:49]  We want this to be Python version 3.8 because that's the version we're going to be using.
+[1:14:55]  That's the version we're going to be that we installed on our computer and then we will deploy
+[1:15:00]  and hopefully it will work out for us. And now we wait. All right. So now our stream lit app
+[1:15:12]  is live. We can click around. We can look at all the different videos, how they're trending,
+[1:15:19]  and I will post the link to this in the description for you to check out. Also,
+[1:15:24]  all the code will be available. I'm going to go ahead and clean the code up, add some comments,
+[1:15:28]  make it actually legible rather than the chicken scratch that it is now. But hopefully this was
+[1:15:34]  useful in first helping you understand what goes into a project. Second, helping you understand
+[1:15:39]  what goes into a dashboard and third, giving you a place to start from that you can build on.
+[1:15:45]  Obviously this is in the really early stages. This could, there's so many different things you could
+[1:15:50]  improve upon with this dashboard. And I'd love to see what you guys do. If you build a dashboard
+[1:15:55]  related to this data and you share it with me, I'm happy to forward it along. Hopefully that'll
+[1:16:00]  help you create some more job opportunities for yourself or help you to build out your portfolio.
+[1:16:05]  As usual, thank you so much for watching and good luck on your data science journey.
