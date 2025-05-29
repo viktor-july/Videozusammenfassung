@@ -39,5 +39,5 @@ This project downloads YouTube video audio, transcribes it using Whisper, and su
 
 - Add more video length presets.
 - Improve chunking and summarization.
-
+ 
 
