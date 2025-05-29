@@ -32,7 +32,6 @@ This project downloads YouTube video audio, transcribes it using Whisper, and su
 - Large videos can take time and storage.
 - Summary length and chunk size are set by video length categories.
 - The code uses open source models: Whisper by OpenAI and BART by Facebook.
-- Better to use GPU in runtime, though if you have more time, it's better to use CPU, especially without a subscription.
 
 ---
 
